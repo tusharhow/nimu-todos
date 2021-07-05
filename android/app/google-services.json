@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "799916215670",
+    "project_id": "nimu-todos-d9856",
+    "storage_bucket": "nimu-todos-d9856.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:799916215670:android:2775acb01485c56a10fe57",
+        "android_client_info": {
+          "package_name": "com.example.nimu_todos"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "799916215670-gevmgiolp2ioegkeqesvnp341dgmreae.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCFEjAYTuPtquKR23vPPHp4F2-Hs_1kfoM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "799916215670-gevmgiolp2ioegkeqesvnp341dgmreae.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
