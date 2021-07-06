@@ -5,7 +5,12 @@ import 'package:nimu_todos/pages/signup.dart';
 
 final controller = Get.put(AuthController());
 
-class Login extends StatelessWidget {
+class Login extends StatefulWidget {
+  @override
+  _LoginState createState() => _LoginState();
+}
+
+class _LoginState extends State<Login> {
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
 
@@ -13,90 +18,128 @@ class Login extends StatelessWidget {
   Widget build(BuildContext context) {
     return Material(
       color: Colors.white,
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Image(
-            image: AssetImage('images/login.png'),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(40.0),
-            child: TextField(
-              controller: emailController,
-              decoration: InputDecoration(
+      child: Form(
+        autovalidateMode: AutovalidateMode.onUserInteraction,
+        key: formKey,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Image(
+              image: AssetImage('images/login.png'),
+            ),
+            SizedBox(
+              height: 30,
+            ),
+            Padding(
+              padding: const EdgeInsets.all(20.0),
+              child: TextFormField(
+                controller: emailController,
+                decoration: InputDecoration(
                   labelText: 'Email',
                   labelStyle: TextStyle(
                     fontWeight: FontWeight.bold,
                     color: Colors.grey,
                   ),
-                  focusedBorder: UnderlineInputBorder(
-                      borderSide: BorderSide(
-                    color: Colors.green,
-                  ))),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 40),
-            child: TextField(
-              controller: passwordController,
-              decoration: InputDecoration(
-                labelText: 'Password',
-                labelStyle: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  color: Colors.grey,
-                ),
-                focusedBorder: UnderlineInputBorder(
-                  borderSide: BorderSide(
-                    color: Colors.green,
+                  focusedBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: Colors.black),
+                    borderRadius: BorderRadius.all(
+                      Radius.circular(20.0),
+                    ),
+                  ),
+                  enabledBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: Colors.black),
+                    borderRadius: BorderRadius.all(
+                      Radius.circular(20.0),
+                    ),
                   ),
                 ),
+                validator: (val) {
+                  if (val!.isEmpty) {
+                    return 'Required';
+                  } else {
+                    return null;
+                  }
+                },
               ),
             ),
-          ),
-          SizedBox(
-            height: 40,
-          ),
-          InkWell(
-            onTap: () {
-              controller.loginUser(
-                  emailController.text, passwordController.text);
-            },
-            child: Container(
-              child: Center(
-                child: Text(
-                  'Login',
-                  style: TextStyle(color: Colors.white, fontSize: 16),
-                ),
-              ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20),
+              child: TextFormField(
+                  controller: passwordController,
+                  decoration: InputDecoration(
+                    labelText: 'Password',
+                    labelStyle: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      color: Colors.grey,
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderSide: BorderSide(color: Colors.black),
+                      borderRadius: BorderRadius.all(
+                        Radius.circular(20.0),
+                      ),
+                    ),
+                    enabledBorder: OutlineInputBorder(
+                      borderSide: BorderSide(color: Colors.black),
+                      borderRadius: BorderRadius.all(
+                        Radius.circular(20.0),
+                      ),
+                    ),
+                  ),
+                  validator: (val) {
+                    if (val!.isEmpty) {
+                      return 'Required';
+                    } else if (val.length < 6) {
+                      return 'Password must be atleast 6';
+                    } else {
+                      return null;
+                    }
+                  }),
+            ),
+            SizedBox(
               height: 40,
-              width: 110,
-              decoration: BoxDecoration(
-                  color: Colors.redAccent,
-                  borderRadius: BorderRadius.circular(50)),
             ),
-          ),
-          SizedBox(
-            height: 20,
-          ),
-          InkWell(
-            onTap: () {
-              Get.to(() => SignUp());
-            },
-            child: Container(
-              child: Center(
-                child: Text(
-                  'Sign Up',
-                  style: TextStyle(color: Colors.white, fontSize: 16),
+            InkWell(
+              onTap: () {
+                controller.validateLoginUser(
+                    emailController.text, passwordController.text);
+              },
+              child: Container(
+                child: Center(
+                  child: Text(
+                    'Login',
+                    style: TextStyle(color: Colors.white, fontSize: 16),
+                  ),
                 ),
+                height: 40,
+                width: 110,
+                decoration: BoxDecoration(
+                    color: Colors.redAccent,
+                    borderRadius: BorderRadius.circular(50)),
               ),
-              height: 40,
-              width: 110,
-              decoration: BoxDecoration(
-                  color: Colors.blueAccent,
-                  borderRadius: BorderRadius.circular(50)),
             ),
-          ),
-        ],
+            SizedBox(
+              height: 20,
+            ),
+            InkWell(
+              onTap: () {
+                Get.to(() => SignUp());
+              },
+              child: Container(
+                child: Center(
+                  child: Text(
+                    'Sign Up',
+                    style: TextStyle(color: Colors.white, fontSize: 16),
+                  ),
+                ),
+                height: 40,
+                width: 110,
+                decoration: BoxDecoration(
+                    color: Colors.blueAccent,
+                    borderRadius: BorderRadius.circular(50)),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

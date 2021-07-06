@@ -1,11 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+
 import 'package:nimu_todos/controllers/auth_controller.dart';
+import 'package:nimu_todos/pages/login.dart';
+import 'package:nimu_todos/pages/signup.dart';
 
 final fireController = Get.put(AuthController());
 
 class HomePage extends StatelessWidget {
-  const HomePage({Key? key}) : super(key: key);
+  const HomePage({
+    Key? key,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +25,7 @@ class HomePage extends StatelessWidget {
         children: [
           ElevatedButton(
             onPressed: () {
-              // AuthController().addUser();
+              Get.to(() => SignUp());
             },
             child: Text('Add User'),
           ),
@@ -29,9 +34,18 @@ class HomePage extends StatelessWidget {
           ),
           ElevatedButton(
             onPressed: () {
-              // fireController.loginUser();
+              Get.to(() => Login());
             },
             child: Text('Login'),
+          ),
+          SizedBox(
+            height: 40,
+          ),
+          ElevatedButton(
+            onPressed: () {
+              fireController.userSignOut();
+            },
+            child: Text('Sign Out'),
           ),
         ],
       ))),
