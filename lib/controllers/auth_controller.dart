@@ -15,7 +15,7 @@ class AuthController extends GetxController {
           .createUserWithEmailAndPassword(email: emai, password: pass)
           .then((value) => Get.offAll(Login()))
           .catchError(
-            (e) => Get.snackbar("Error while sign up ", e.message),
+            (onError) => Get.snackbar("Error while sign up ", onError.message),
           );
     } catch (e) {
       print(e);
