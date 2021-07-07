@@ -1,11 +1,6 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
 import 'package:nimu_todos/controllers/auth_controller.dart';
-import 'package:nimu_todos/pages/splash_screen.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 final fireController = Get.put(AuthController());
 

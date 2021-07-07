@@ -14,9 +14,9 @@ class AuthController extends GetxController {
       await userAuth
           .createUserWithEmailAndPassword(email: emai, password: pass)
           .then((value) => Get.offAll(Login()))
-          .catchError(
-            (onError) => Get.snackbar("Error while sign up ", onError.message),
-          );
+          .catchError((onError) {
+        Get.snackbar("Error while sign up ", onError.message);
+      });
     } catch (e) {
       print(e);
     }
@@ -28,8 +28,9 @@ class AuthController extends GetxController {
       await userAuth
           .signInWithEmailAndPassword(email: emailLog, password: passLog)
           .then((value) => Get.offAll(HomePage()))
-          .catchError((onError) =>
-              Get.snackbar("Error while sign in ", onError.message));
+          .catchError((onError) {
+        Get.snackbar("Error while sign in ", onError.message);
+      });
     } catch (e) {
       print('error');
     }
