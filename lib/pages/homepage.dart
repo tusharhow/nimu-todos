@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:nimu_todos/pages/about_dev.dart';
 import 'package:get/get.dart';
 import 'package:nimu_todos/controllers/todo_controller.dart';
 
@@ -27,7 +28,6 @@ class _HomePageState extends State<HomePage> {
   }
 
   getUid() async {
-    FirebaseAuth auth = FirebaseAuth.instance;
     final user = auth.currentUser;
 
     setState(() {
@@ -60,14 +60,17 @@ class _HomePageState extends State<HomePage> {
                 itemBuilder: (context, index) {
                   return Column(
                     children: [
-                      Card(
-                        child: ListTile(
-                          title: Text(docs[index]['title']),
-                          subtitle: Text(docs[index]['description']),
+                      Padding(
+                        padding: const EdgeInsets.all(5.0),
+                        child: Card(
+                          elevation: 4,
+                          child: ListTile(
+                              // title: Text(docs[index]['title']),
+                              // subtitle: Text(docs[index]['description']),
+                              ),
                         ),
                       ),
                     ],
-                    // children: [Text(snapshot.data!.docs[0]['title'])],
                   );
                 });
           }
@@ -160,9 +163,10 @@ class _HomePageState extends State<HomePage> {
                                 height: 15,
                               ),
                               InkWell(
-                                onTap: () {
+                                onTap: () async {
                                   try {
-                                    todoController.addTaskToFirebase(context);
+                                    await todoController.addTaskToFirebase();
+                                    Navigator.pop(context);
                                   } catch (e) {
                                     Get.snackbar(
                                         'Error while adding TODOS', '');
@@ -199,6 +203,59 @@ class _HomePageState extends State<HomePage> {
         },
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+      drawer: Drawer(
+        child: ListView(
+          padding: EdgeInsets.zero,
+          children: <Widget>[
+            Container(
+              color: Theme.of(context).primaryColor,
+              child: DrawerHeader(
+                child: CircleAvatar(
+                  child: Text(
+                    "Your Daily TODO Manager",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 30.0,
+                        fontWeight: FontWeight.bold,
+                        fontFamily: 'Galada'),
+                  ),
+                  backgroundColor: Colors.transparent,
+                ),
+              ),
+            ),
+            ListTile(
+              title: Text("Home"),
+              leading: Icon(Icons.home),
+              onTap: () {
+                Navigator.pop(context);
+              },
+            ),
+            Divider(),
+            ListTile(
+              title: Text("Home"),
+              leading: Icon(Icons.more),
+              onTap: () {
+                Get.to(() => AboutDev());
+              },
+            ),
+            Divider(),
+            ListTile(
+              title: Text(
+                "Rate Our Apps",
+                style: TextStyle(
+                    color: Colors.teal,
+                    fontSize: 18,
+                    letterSpacing: 1.5,
+                    fontFamily: 'Galada',
+                    fontWeight: FontWeight.w500),
+              ),
+              leading: Icon(Icons.sentiment_very_satisfied,
+                  size: 23, color: Colors.teal),
+            )
+          ],
+        ),
+      ),
     );
   }
 }

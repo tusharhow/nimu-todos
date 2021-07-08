@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:nimu_todos/controllers/auth_controller.dart';
-import 'package:nimu_todos/pages/signup.dart';
 
 final controller = Get.put(AuthController());
 

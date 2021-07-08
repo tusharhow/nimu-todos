@@ -7,7 +7,6 @@ import 'package:nimu_todos/pages/login.dart';
 final controller = Get.put(AuthController());
 
 class SignUp extends StatelessWidget {
-  final usernameController = TextEditingController();
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
 

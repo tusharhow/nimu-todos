@@ -13,7 +13,6 @@ class AuthController extends GetxController {
   final auth = FirebaseAuth.instance;
   final firebaseInstance = FirebaseFirestore.instance;
 
-
   Future addUser(String emai, String pass) async {
     String uid = userAuth.currentUser!.uid;
     final time = DateTime.now();
@@ -31,40 +30,7 @@ class AuthController extends GetxController {
           return Get.to(Login());
         } catch (e) {}
       });
-      //     .then((value) {})
-      //     .catchError((onError) {
-      //   Get.snackbar("Error while sign up ", onError.message);
-      // })
-      // .then((value) {
-      //   FirebaseFirestore.instance
-      //       .collection('users')
-      //       .doc(value.user!.uid)
-      //       .set({
-      //     "email": value.user!.email,
-      //   });
-      // })
-      // .then((value) {})
-      // .catchError((onError) {
-      //   Get.snackbar("Error while sign up ", onError.message);
-      // });
-    }
-    // String uid = userAuth.currentUser!.uid;
-    // final time = DateTime.now();
-    // await FirebaseFirestore.instance
-    //     .collection('accounts')
-    //     .doc(uid)
-    //     .collection('users')
-    //     .doc(uid)
-    //     .set({
-    //   'id': uid,
-    //   'email': emai,
-    //   'password': pass,
-    //   'time': time.toString(),
-    //   // });
-    // }
-
-    // );
-    catch (e) {
+    } catch (e) {
       Get.snackbar('Error while sign up, Try again.', '');
     }
   }
