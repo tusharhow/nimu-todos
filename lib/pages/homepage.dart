@@ -1,10 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:nimu_todos/pages/about_dev.dart';
 import 'package:get/get.dart';
 import 'package:nimu_todos/controllers/todo_controller.dart';
-import 'package:nimu_todos/pages/login.dart';
+import 'package:nimu_todos/pages/drawer.dart';
+import 'package:nimu_todos/pages/floating_button.dart';
 
 final titileController = TextEditingController();
 final descController = TextEditingController();
@@ -56,202 +56,65 @@ class _HomePageState extends State<HomePage> {
               final item = snapshot.data!.docs[index];
               return Dismissible(
                 key: Key(item.data().toString()),
-                child: Card(
-                  child: ListTile(
-                      title: Text('${item['title']}'),
-                      trailing: IconButton(
-                        onPressed: () {},
-                        icon: Icon(
-                          Icons.delete,
-                          color: Colors.red,
+                child: Padding(
+                  padding: const EdgeInsets.all(2.0),
+                  child: Card(
+                    elevation: 4,
+                    child: Column(
+                      children: [
+                        Text(
+                          '${item['title']}',
+                          style: TextStyle(
+                              fontSize: 17,
+                              fontWeight: FontWeight.w700,
+                              color: Colors.black),
                         ),
-                      )),
+                        SizedBox(
+                          height: 5,
+                        ),
+                        // Text(
+                        //   '${item['description']}',
+                        //   style: TextStyle(
+                        //       fontSize: 17,
+                        //       fontWeight: FontWeight.w700,
+                        //       color: Colors.black38),
+                        // ),
+                      ],
+                    ),
+                    // child: ListTile(
+                    //     title: Text(
+                    //       '${item['title']}',
+                    //       style: TextStyle(
+                    //           fontSize: 17,
+                    //           fontWeight: FontWeight.w700,
+                    //           color: Colors.white),
+                    //     ),
+                    //     tileColor: Colors.teal,
+                    //     subtitle: Text(
+                    //       '${item['description']}',
+                    //       style: TextStyle(
+                    //           fontSize: 16,
+                    //           fontWeight: FontWeight.w400,
+                    //           color: Colors.white60),
+                    //       softWrap: true,
+                    //     ),
+                    //     trailing: IconButton(
+                    //       onPressed: () {},
+                    //       icon: Icon(
+                    //         Icons.delete,
+                    //         color: Colors.white70,
+                    //       ),
+                    //     )),
+                  ),
                 ),
               );
             },
           );
         },
       ),
-      floatingActionButton: FloatingActionButton(
-        child: Icon(Icons.add),
-        onPressed: () async {
-          showDialog(
-            context: context,
-            builder: (_) => AlertDialog(
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(16),
-              ),
-              backgroundColor: Colors.white,
-              actions: [
-                Container(
-                  width: MediaQuery.of(context).size.width,
-                  height: MediaQuery.of(context).size.height / 2,
-                  child: Column(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Form(
-                          child: Column(
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.all(10.0),
-                                child: TextFormField(
-                                  controller: titileController,
-                                  maxLines: 2,
-                                  decoration: InputDecoration(
-                                    labelText: 'TODO Title',
-                                    labelStyle: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      color: Colors.grey,
-                                    ),
-                                    focusedBorder: OutlineInputBorder(
-                                      borderSide:
-                                          BorderSide(color: Colors.black),
-                                      borderRadius: BorderRadius.all(
-                                        Radius.circular(16.0),
-                                      ),
-                                    ),
-                                    enabledBorder: OutlineInputBorder(
-                                      borderSide:
-                                          BorderSide(color: Colors.black),
-                                      borderRadius: BorderRadius.all(
-                                        Radius.circular(20.0),
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              SizedBox(
-                                width: MediaQuery.of(context).size.width,
-                                height: 15,
-                              ),
-                              Padding(
-                                padding:
-                                    const EdgeInsets.symmetric(horizontal: 10),
-                                child: TextFormField(
-                                  controller: descController,
-                                  maxLines: 7,
-                                  decoration: InputDecoration(
-                                    labelText: 'TODO Description',
-                                    labelStyle: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      color: Colors.grey,
-                                    ),
-                                    focusedBorder: OutlineInputBorder(
-                                      borderSide:
-                                          BorderSide(color: Colors.black),
-                                      borderRadius: BorderRadius.all(
-                                        Radius.circular(20.0),
-                                      ),
-                                    ),
-                                    enabledBorder: OutlineInputBorder(
-                                      borderSide:
-                                          BorderSide(color: Colors.black),
-                                      borderRadius: BorderRadius.all(
-                                        Radius.circular(20.0),
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              SizedBox(
-                                width: MediaQuery.of(context).size.width,
-                                height: 15,
-                              ),
-                              InkWell(
-                                onTap: () async {
-                                  try {
-                                    todoController.addToDo();
-                                    Navigator.pop(context);
-                                  } catch (e) {
-                                    Get.snackbar(
-                                        'Error while adding TODOS', '');
-                                  }
-                                },
-                                child: Container(
-                                  child: Center(
-                                    child: Text(
-                                      'Add TODO',
-                                      style: TextStyle(
-                                          color: Colors.white,
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 16),
-                                    ),
-                                  ),
-                                  height: 45,
-                                  width: MediaQuery.of(context).size.width / 2,
-                                  decoration: BoxDecoration(
-                                    color: Colors.red,
-                                    borderRadius: BorderRadius.circular(16),
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                )
-              ],
-            ),
-          );
-        },
-      ),
+      floatingActionButton: FloatingButton(todoController: todoController),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-      drawer: Drawer(
-        child: ListView(
-          padding: EdgeInsets.zero,
-          children: <Widget>[
-            Container(
-              color: Theme.of(context).primaryColor,
-              child: DrawerHeader(
-                child: CircleAvatar(
-                  child: Text(
-                    "Your Daily TODO Manager",
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 30.0,
-                        fontWeight: FontWeight.bold,
-                        fontFamily: 'Galada'),
-                  ),
-                  backgroundColor: Colors.transparent,
-                ),
-              ),
-            ),
-            ListTile(
-              title: Text("Home"),
-              leading: Icon(Icons.home),
-              onTap: () {
-                Navigator.pop(context);
-              },
-            ),
-            Divider(),
-            ListTile(
-              title: Text("Home"),
-              leading: Icon(Icons.more),
-              onTap: () {
-                Get.to(() => AboutDev());
-              },
-            ),
-            Divider(),
-            ListTile(
-              title: Text(
-                "Rate Our Apps",
-                style: TextStyle(
-                    color: Colors.teal,
-                    fontSize: 18,
-                    letterSpacing: 1.5,
-                    fontFamily: 'Galada',
-                    fontWeight: FontWeight.w500),
-              ),
-              leading: Icon(Icons.sentiment_very_satisfied,
-                  size: 23, color: Colors.teal),
-            )
-          ],
-        ),
-      ),
+      drawer: DrawerHome(),
     );
   }
 }

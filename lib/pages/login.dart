@@ -100,7 +100,7 @@ class _LoginState extends State<Login> {
             ),
             InkWell(
               onTap: () async {
-                await validLoginUser(
+                await controller.validLoginUser(
                     emailController.text, passwordController.text);
               },
               child: Container(

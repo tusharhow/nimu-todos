@@ -27,9 +27,9 @@ class MyApp extends StatelessWidget {
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        primarySwatch: Colors.red,
+        primarySwatch: Colors.teal,
       ),
-      home: HomePage(),
+      home: Splash(),
     );
   }
 }

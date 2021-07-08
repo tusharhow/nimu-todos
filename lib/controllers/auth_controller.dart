@@ -7,53 +7,55 @@ import 'package:nimu_todos/pages/homepage.dart';
 import 'package:nimu_todos/pages/login.dart';
 
 final formKey = GlobalKey<FormState>();
+final userAuth = FirebaseAuth.instance;
+final emailController = TextEditingController();
+final passwordController = TextEditingController();
+final _auth = FirebaseAuth.instance;
 
 class AuthController extends GetxController {
-  final userAuth = FirebaseAuth.instance;
-  final auth = FirebaseAuth.instance;
-  final firebaseInstance = FirebaseFirestore.instance;
+  String uid = _auth.currentUser!.uid;
 
   Future addUser(String emai, String pass) async {
-    String uid = userAuth.currentUser!.uid;
-    final time = DateTime.now();
     try {
-      await userAuth
+      var time = DateTime.now();
+      await _auth
           .createUserWithEmailAndPassword(email: emai, password: pass)
-          .then((value) {
-        try {
-          FirebaseFirestore.instance.collection('users').doc(uid).set({
-            'id': uid,
-            'creation': time.toString(),
-            'email': emai,
-            'password': pass
-          });
-          return Get.to(Login());
-        } catch (e) {}
+          .then((value) => {
+                FirebaseFirestore.instance.collection('users').add({
+                  'email': emai,
+                  'password': pass,
+                  'id': uid,
+                  'creation': time.toString()
+                })
+              })
+          .then((value) => Get.offAll(Login()))
+          .catchError((onError) {
+        Get.snackbar("Error while Sign up", onError.message);
       });
     } catch (e) {
-      Get.snackbar('Error while sign up, Try again.', '');
+      print('e');
     }
   }
-}
 
-Future validLoginUser(String emailLog, String passLog) async {
-  try {
-    formKey.currentState!.validate();
-    await auth
-        .signInWithEmailAndPassword(email: emailLog, password: passLog)
-        .then((value) => Get.offAll(HomePage()))
-        .catchError((onError) {
-      Get.snackbar("Error while sign in ", onError.message);
-    });
-  } catch (e) {
-    print('error');
+  Future validLoginUser(String emailLog, String passLog) async {
+    try {
+      formKey.currentState!.validate();
+      await _auth
+          .signInWithEmailAndPassword(email: emailLog, password: passLog)
+          .then((value) => Get.offAll(HomePage()))
+          .catchError((onError) {
+        Get.snackbar("Error while sign in ", onError.message);
+      });
+    } catch (e) {
+      print('error');
+    }
   }
-}
 
-void userSignOut() async {
-  try {
-    await auth.signOut();
-  } catch (e) {
-    print(e);
+  void userSignOut() async {
+    try {
+      await auth.signOut();
+    } catch (e) {
+      print(e);
+    }
   }
 }
