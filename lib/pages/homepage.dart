@@ -4,10 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:nimu_todos/pages/about_dev.dart';
 import 'package:get/get.dart';
 import 'package:nimu_todos/controllers/todo_controller.dart';
+import 'package:nimu_todos/pages/login.dart';
 
 final titileController = TextEditingController();
 final descController = TextEditingController();
-final todoController = Get.put(TodoController());
 final FirebaseAuth auth = FirebaseAuth.instance;
 
 class HomePage extends StatefulWidget {
@@ -18,6 +18,8 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  final todoController = Get.put(TodoController(), permanent: true);
+
   String uid = '';
 
   @override
@@ -43,42 +45,36 @@ class _HomePageState extends State<HomePage> {
         title: Text('Nimu TODOS'),
       ),
       body: StreamBuilder<QuerySnapshot>(
-        stream: FirebaseFirestore.instance
-            .collection('tasks')
-            .doc(uid)
-            .collection('mytasks')
-            .snapshots(),
+        stream: todoController.getTodos(),
         builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return Container(
-              child: Center(child: CircularProgressIndicator()),
-            );
-          } else {
-            var docs = snapshot.data!.docs;
-            return ListView.builder(
-                itemCount: docs.length,
-                itemBuilder: (context, index) {
-                  return Column(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.all(5.0),
-                        child: Card(
-                          elevation: 4,
-                          child: ListTile(
-                              // title: Text(docs[index]['title']),
-                              // subtitle: Text(docs[index]['description']),
-                              ),
-                        ),
-                      ),
-                    ],
-                  );
-                });
+          if (!snapshot.hasData) {
+            return Center(child: CircularProgressIndicator());
           }
+          return ListView.builder(
+            itemCount: snapshot.data!.docs.length,
+            itemBuilder: (BuildContext context, int index) {
+              final item = snapshot.data!.docs[index];
+              return Dismissible(
+                key: Key(item.data().toString()),
+                child: Card(
+                  child: ListTile(
+                      title: Text('${item['title']}'),
+                      trailing: IconButton(
+                        onPressed: () {},
+                        icon: Icon(
+                          Icons.delete,
+                          color: Colors.red,
+                        ),
+                      )),
+                ),
+              );
+            },
+          );
         },
       ),
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.add),
-        onPressed: () {
+        onPressed: () async {
           showDialog(
             context: context,
             builder: (_) => AlertDialog(
@@ -165,7 +161,7 @@ class _HomePageState extends State<HomePage> {
                               InkWell(
                                 onTap: () async {
                                   try {
-                                    await todoController.addTaskToFirebase();
+                                    todoController.addToDo();
                                     Navigator.pop(context);
                                   } catch (e) {
                                     Get.snackbar(
