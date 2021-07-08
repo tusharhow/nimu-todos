@@ -96,11 +96,12 @@ class _LoginState extends State<Login> {
                   }),
             ),
             SizedBox(
-              height: 40,
+              height: 100,
+              width: MediaQuery.of(context).size.width / 3,
             ),
             InkWell(
-              onTap: () {
-                controller.validateLoginUser(
+              onTap: () async {
+                await validLoginUser(
                     emailController.text, passwordController.text);
               },
               child: Container(
@@ -111,7 +112,7 @@ class _LoginState extends State<Login> {
                   ),
                 ),
                 height: 40,
-                width: 110,
+                width: MediaQuery.of(context).size.width / 3,
                 decoration: BoxDecoration(
                     color: Colors.redAccent,
                     borderRadius: BorderRadius.circular(50)),
@@ -119,10 +120,11 @@ class _LoginState extends State<Login> {
             ),
             SizedBox(
               height: 20,
+              width: MediaQuery.of(context).size.width,
             ),
             InkWell(
               onTap: () {
-                Get.to(() => SignUp());
+                Get.back();
               },
               child: Container(
                 child: Center(
@@ -132,7 +134,7 @@ class _LoginState extends State<Login> {
                   ),
                 ),
                 height: 40,
-                width: 110,
+                width: MediaQuery.of(context).size.width / 3,
                 decoration: BoxDecoration(
                     color: Colors.blueAccent,
                     borderRadius: BorderRadius.circular(50)),
