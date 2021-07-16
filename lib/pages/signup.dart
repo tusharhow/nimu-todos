@@ -84,6 +84,7 @@ class SignUp extends StatelessWidget {
           ),
           InkWell(
             onTap: () async {
+             
               await controller.addUser(
                   emailController.text, passwordController.text);
             },

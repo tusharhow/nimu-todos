@@ -1,6 +1,8 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:nimu_todos/controllers/auth_controller.dart';
+import 'package:nimu_todos/pages/homepage.dart';
 
 final controller = Get.put(AuthController());
 
@@ -101,7 +103,7 @@ class _LoginState extends State<Login> {
             InkWell(
               onTap: () async {
                 await controller.validLoginUser(
-                    emailController.text, passwordController.text);
+                    emailController.text, passwordController.text).then((value) => Get.to(HomePage()));
               },
               child: Container(
                 child: Center(
@@ -139,6 +141,17 @@ class _LoginState extends State<Login> {
                     borderRadius: BorderRadius.circular(50)),
               ),
             ),
+            Text.rich(TextSpan(children: [
+              TextSpan(text: 'If you already have account,  '),
+              TextSpan(
+                  text: 'Login',
+                  style: TextStyle(
+                      fontWeight: FontWeight.bold, color: Colors.redAccent),
+                  recognizer: new TapGestureRecognizer()
+                    ..onTap = () {
+                      Get.to(HomePage());
+                    })
+            ])),
           ],
         ),
       ),

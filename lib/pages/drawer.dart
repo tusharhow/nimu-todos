@@ -1,14 +1,26 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:nimu_todos/controllers/auth_controller.dart';
 import 'package:nimu_todos/pages/about_dev.dart';
+
 import 'package:nimu_todos/pages/login.dart';
 import 'package:nimu_todos/pages/signup.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-class DrawerHome extends StatelessWidget {
+final controller = Get.put(AuthController());
+
+class DrawerHome extends StatefulWidget {
   const DrawerHome({
     Key? key,
   }) : super(key: key);
+
+  @override
+  _DrawerHomeState createState() => _DrawerHomeState();
+}
+
+class _DrawerHomeState extends State<DrawerHome> {
+  final user = FirebaseAuth.instance.currentUser;
 
   @override
   Widget build(BuildContext context) {
@@ -68,16 +80,24 @@ class DrawerHome extends StatelessWidget {
                   size: 23, color: Colors.teal),
             ),
           ),
-          ElevatedButton(
-              onPressed: () {
-                Get.to(SignUp());
-              },
-              child: Text('Sign up')),
+          SizedBox(
+            height: 40,
+          ),
           ElevatedButton(
               onPressed: () {
                 Get.to(Login());
               },
               child: Text('Login')),
+          ElevatedButton(
+              onPressed: () {
+                Get.to(SignUp());
+              },
+              child: Text('Sign Up')),
+          ElevatedButton(
+              onPressed: () {
+                controller.userSignOut();
+              },
+              child: Text('Sign Out')),
         ],
       ),
     );

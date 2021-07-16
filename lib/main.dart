@@ -4,8 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:nimu_todos/pages/homepage.dart';
-import 'package:nimu_todos/pages/signup.dart';
-
 import 'package:nimu_todos/pages/splash_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -18,6 +16,9 @@ void main() async {
     ),
   );
 
+  runApp(MaterialApp(
+    debugShowCheckedModeBanner: false,
+  ));
   runApp(MyApp());
 }
 
@@ -29,7 +30,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.teal,
       ),
-      home: Splash(),
+      home: HomePage(),
     );
   }
 }
